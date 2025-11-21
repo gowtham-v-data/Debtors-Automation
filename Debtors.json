@@ -1,0 +1,1131 @@
+{
+  "name": "Debtors",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        288,
+        -400
+      ],
+      "id": "1eb6a053-a3ed-45e6-a600-00caf9072757",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -256
+      ],
+      "id": "12c06352-33e5-481b-9d61-452181064446"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 8e0f68a4-1d3d-466d-8cc9-777c844b21c3"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\n  \"assistantId\": \"aabe62a6-bf26-4ffd-95dc-f25633d4e410\",\n  \"phoneNumberId\": \"5e738f5f-7a2b-4db9-840e-639be94a7cf9\",\n  \"customers\": [\n    {\n      \"name\": \"{{ $('Update row in sheet1').first().json.name }}\",\n      \"number\": \"{{ $('Update row in sheet1').first().json.phone }}\"\n    }\n  ],\n  \"assistantOverrides\": {\n    \"firstMessage\": \"Hello {{ $('Update row in sheet1').first().json.name }}, this is a call regarding your pending payment of {{ $('Update row in sheet1').first().json.amount }} INR for your {{ $('Update row in sheet1').first().json.product_name }}, purchased on {{ $('Update row in sheet1').first().json.purchase_date }}.\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        -416
+      ],
+      "id": "700b7180-3aa1-4a5b-b055-eba1799b59c3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw",
+          "mode": "list",
+          "cachedResultName": "Debtors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.id }}",
+            "name": "={{ $json.name }}",
+            "phone": "=+{{ $json.phone }}",
+            "amount": "={{ $json.amount }}",
+            "currency": "={{ $json.currency }}",
+            "product_id": "={{ $json.product_id }}",
+            "product_name": "={{ $json.product_name }}",
+            "purchase_date": "={{ $json.purchase_date }}",
+            "status": "={{ $json.status }}",
+            "next_call_at": "={{ $json.next_call_at }}",
+            "last_call_result": "={{ $json.last_call_result }}",
+            "notes": "={{ $json.notes }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_id",
+              "displayName": "product_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_name",
+              "displayName": "product_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "purchase_date",
+              "displayName": "purchase_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "next_call_at",
+              "displayName": "next_call_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_call_result",
+              "displayName": "last_call_result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -32,
+        -400
+      ],
+      "id": "282cd227-74d9-49e1-90a2-992c9e49287a",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Egg3H2CJfsAVjBiv",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      message: `Hello ${$json.name}, this is a call regarding your pending payment of ${$json.amount} INR for your ${$json.product_name}, purchased on ${$json.purchase_date}.`\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        -416
+      ],
+      "id": "71166a26-aab3-4fc8-9ee8-ef4baf230e90",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "amount": 1.5,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1248,
+        -416
+      ],
+      "id": "4fd78d6f-a575-474c-a14e-bbdfce5c0b34",
+      "name": "Wait",
+      "webhookId": "6f946ed8-7717-4de0-b7e8-2bef71f99de6"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.vapi.ai/call/{{ $json.results[0].id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 8e0f68a4-1d3d-466d-8cc9-777c844b21c3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "9d2c20b0-ee45-40d9-8afd-e26a158ad67a",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw",
+          "mode": "list",
+          "cachedResultName": "Debtors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Update row in sheet1').first().json.id }}",
+            "name": "={{ $('Update row in sheet1').first().json.name }}",
+            "phone": "={{ $('Update row in sheet1').first().json.phone }}",
+            "amount": "={{ $('Update row in sheet1').first().json.amount }}",
+            "currency": "={{ $('Update row in sheet1').first().json.currency }}",
+            "product_id": "={{ $('Update row in sheet1').first().json.product_id }}",
+            "product_name": "={{ $('Update row in sheet1').first().json.product_name }}",
+            "purchase_date": "={{ $('Update row in sheet1').first().json.purchase_date }}",
+            "status": "={{ $json.last_call_result }}",
+            "next_call_at": "={{ $json.next_call_at }}",
+            "notes": "={{ $json.notes }}",
+            "last_call_result": "={{ $json.last_call_result }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_id",
+              "displayName": "product_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_name",
+              "displayName": "product_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "purchase_date",
+              "displayName": "purchase_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "next_call_at",
+              "displayName": "next_call_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_call_result",
+              "displayName": "last_call_result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        752,
+        -96
+      ],
+      "id": "67e24c8e-144f-445b-b632-b3612fd1d20c",
+      "name": "Update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Egg3H2CJfsAVjBiv",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0].json;\nconst transcript = data.transcript?.toLowerCase() || \"\";\n\nlet outcome = \"UNCLEAR\";\nlet next_call_at = \"\";\nlet notes = \"\";\n\n// Utility: Add minutes/days\nfunction addTime(type, amount) {\n  let d = new Date();\n  if (type === \"minutes\") d.setMinutes(d.getMinutes() + amount);\n  if (type === \"hours\") d.setHours(d.getHours() + amount);\n  if (type === \"days\") d.setDate(d.getDate() + amount);\n  return d.toISOString();\n}\n\n// ---- Pre-calculate callback timing matches ----\nconst matchDays = transcript.match(/(\\d+)\\s*day/);\nconst matchMinutes = transcript.match(/(\\d+)\\s*minute/);\nconst matchHours = transcript.match(/(\\d+)\\s*hour/);\n\n/* ------------------------------------------\n   0. WRONG NUMBER  (HIGH PRIORITY)\n---------------------------------------------*/\nif (\n  transcript.includes(\"wrong number\") ||\n  transcript.includes(\"not my number\") ||\n  transcript.includes(\"this is not\") ||\n  transcript.includes(\"no such person\") ||\n  transcript.includes(\"you called the wrong person\") ||\n  transcript.includes(\"don't know\") ||\n  transcript.includes(\"i dont know him\") ||\n  transcript.includes(\"i don't know her\") ||\n  transcript.includes(\"not the person\")\n) {\n  outcome = \"WRONG_NUMBER\";\n  notes = \"Wrong number — unrelated person.\";\n  next_call_at = addTime(\"days\", 1);\n}\n\n/* ------------------------------------------\n   1. PAYMENT CONFIRMED\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"i will pay\") ||\n  transcript.includes(\"pay today\") ||\n  transcript.includes(\"pay now\") ||\n  (transcript.includes(\"paid\") && !transcript.includes(\"already paid\"))\n) {\n  outcome = \"PAID\";\n  notes = \"Customer agreed to pay.\";\n}\n\n/* ------------------------------------------\n   2. CUSTOMER ALREADY PAID\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"already paid\") ||\n  transcript.includes(\"i paid already\") ||\n  transcript.includes(\"i have paid\")\n) {\n  outcome = \"ALREADY_PAID\";\n  notes = \"Customer claims they already paid.\";\n}\n\n/* ------------------------------------------\n   3. CALLBACK REQUEST / LATER\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"call me later\") ||\n  transcript.includes(\"call later\") ||\n  transcript.includes(\"call back\") ||\n  transcript.includes(\"remind me\") ||\n  transcript.includes(\"later\") ||\n  transcript.includes(\"busy\") ||\n  transcript.includes(\"not now\")\n) {\n  outcome = \"CALL_LATER\";\n  notes = \"Customer requested a callback.\";\n\n  if (matchDays) next_call_at = addTime(\"days\", parseInt(matchDays[1]));\n  else if (matchMinutes) next_call_at = addTime(\"minutes\", parseInt(matchMinutes[1]));\n  else if (matchHours) next_call_at = addTime(\"hours\", parseInt(matchHours[1]));\n  else next_call_at = addTime(\"hours\", 1);\n}\n\n/* ------------------------------------------\n   4. REFUND REQUEST\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"refund\") ||\n  transcript.includes(\"want refund\")\n) {\n  outcome = \"REFUND_REQUEST\";\n  notes = \"Customer requested a refund.\";\n}\n\n/* ------------------------------------------\n   5. NEED EXTENSION\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"two months\") ||\n  transcript.includes(\"1 month\") ||\n  transcript.includes(\"2 months\") ||\n  transcript.includes(\"give me time\") ||\n  transcript.includes(\"need extension\") ||\n  transcript.includes(\"give me more days\")\n) {\n  outcome = \"NEED_EXTENSION\";\n  notes = \"Customer requested additional time.\";\n  next_call_at = addTime(\"days\", 3);\n}\n\n/* ------------------------------------------\n   6. REFUSAL TO PAY\n---------------------------------------------*/\nelse if (\n  transcript.includes(\"not paying\") ||\n  transcript.includes(\"refuse\") ||\n  transcript.includes(\"stop calling\") ||\n  transcript.includes(\"no i won't pay\") ||\n  transcript.includes(\"dont call me\")\n) {\n  outcome = \"REFUSED\";\n  notes = \"Customer refused to pay.\";\n}\n\n/* ------------------------------------------\n   7. DEFAULT (UNCLEAR)\n---------------------------------------------*/\nif (outcome === \"UNCLEAR\") {\n  notes = \"No clear intent detected.\";\n}\n\n// -------- Return clean response to n8n --------\nreturn [\n  {\n    json: {\n      debtor_id: data.id,\n      name: data.customer?.name || \"\",\n      phone: data.customer?.number || \"\",\n      transcript: data.transcript || \"\",\n      summary: data.summary || \"\",\n      recordingUrl: data.recordingUrl || \"\",\n      startedAt: data.startedAt || \"\",\n      endedAt: data.endedAt || \"\",\n      last_call_result: outcome,\n      next_call_at: next_call_at,\n      notes: notes\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -32
+      ],
+      "id": "70c77990-31d2-416c-bda7-ecca6fda6ef1",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw",
+          "mode": "list",
+          "cachedResultName": "Debtors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15vKjfp5EwEnH9NrngjlGlG4taTkJDrYQJANnRWdxktw/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "pending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -336,
+        -400
+      ],
+      "id": "03d6c92b-6f77-4adc-8a6c-ea34d22f2598",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Egg3H2CJfsAVjBiv",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -400
+      ],
+      "id": "e4972586-5301-4d2d-aa8e-e1d59abb6716",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1yHkXeKv-Us2Eteg2ldeaD32XXQ3LfIS9",
+          "mode": "list",
+          "cachedResultName": "Company.pdf",
+          "cachedResultUrl": "https://drive.google.com/file/d/1yHkXeKv-Us2Eteg2ldeaD32XXQ3LfIS9/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -304,
+        272
+      ],
+      "id": "bb90818f-7142-4145-ae10-1c8e002a3e1c",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "NZZj4qmDDjE71DIQ",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        272
+      ],
+      "id": "df17ec15-c3b1-428f-8e79-825a34b84bbb",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get text output from previous node (Analyze Document)\nconst text = $json.documentText || $json.text || \"\";\n\n// Chunk size settings\nconst chunkSize = 500;   // 500 characters per chunk (works best for Pinecone)\nconst overlap = 50;      // 50 character overlap prevents context loss\n\n// Prepare output array\nlet chunks = [];\n\nfor (let i = 0; i < text.length; i += (chunkSize - overlap)) {\n  const chunk = text.slice(i, i + chunkSize);\n\n  chunks.push({\n    json: {\n      id: `chunk_${i}`,   // unique ID for Pinecone vector\n      text: chunk\n    }\n  });\n}\n\nreturn chunks;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        272
+      ],
+      "id": "a4b9117d-a048-48cf-a034-71b9163744b8",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "product",
+          "mode": "list",
+          "cachedResultName": "product"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        672,
+        272
+      ],
+      "id": "8231141b-4f92-43e9-9e93-f649769aa587",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "mzjNoajBI2bXZHE4",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        624,
+        496
+      ],
+      "id": "e8d7779f-3898-4654-9824-0c104f51cfc0",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "oMm1jwvVO2TGDptn",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "text",
+                "value": "={{ $json.text }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        480
+      ],
+      "id": "4aaa03e7-604a-41a9-a738-4345c39d1154",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        784
+      ],
+      "id": "4b574520-c73b-4499-a6de-33b437256a95",
+      "name": "When chat message received",
+      "webhookId": "9afa2d3a-2371-4d77-b705-c72d1a120a86"
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "product",
+          "mode": "list",
+          "cachedResultName": "product"
+        },
+        "prompt": "={{ $json.chatInput }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        784
+      ],
+      "id": "e10d4352-66a2-4a70-acd3-5667d2cce54c",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "mzjNoajBI2bXZHE4",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        1008
+      ],
+      "id": "c5ee04a4-53b4-4db5-a667-06f729b58f72",
+      "name": "Embeddings Google Gemini1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "oMm1jwvVO2TGDptn",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a Product Information AI Assistant.\n\nYour job is to answer user questions strictly using the information retrieved from the Pinecone Vector Store.\n\nRULES:\n1. Always use the documents retrieved via the Pinecone Vector Store as your primary source.\n2. If retrieved documents do not contain the answer, say:\n   \"I could not find that information in the product database.\"\n3. Never hallucinate. Never invent product names, specs, prices, or details.\n4. Keep answers short, clear, and factual.\n5. Include relevant product attributes such as:\n   - Features\n   - Specifications\n   - Price\n   - Purchase date\n   - Warranty info (if present)\n6. If the user provides a vague question, ask for clarification.\n7. If multiple documents are retrieved, summarize only the relevant parts.\n8. Maintain a professional and helpful tone.\n\nEXAMPLES OF OUTPUT:\nUser: “What is SmartVision 65 TV?”\nAI: “SmartVision 65” (SV-6500) is a 65-inch 4K HDR television with HDR10+ and Dolby Vision. It includes a Smart OS, 120Hz refresh rate, and Motion Flow technology.\n\nUser: \"How much does it cost?\"\nAI: “The SmartVision 65” is priced at $1,299.99.”\n\nUser: “What is the pending amount for customer Meena?”\nAI: “Meena has a pending amount of INR 1,000 for purchasing two Aura Smartwatches.”\n\nIf unsure:\nAI: “I could not find that information in the Pinecone product store.”\n\nEND OF SYSTEM PROMPT.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        256,
+        784
+      ],
+      "id": "940a4c0a-720f-47cb-b33c-7b1d9b4b160b",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        48,
+        1024
+      ],
+      "id": "3881d976-d0d6-4c50-9f9d-1c9e84358f4b",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "oMm1jwvVO2TGDptn",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Work with your data in Pinecone Vector Store",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "product",
+          "mode": "list",
+          "cachedResultName": "product"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        1024
+      ],
+      "id": "c9e65101-95e1-45a4-8bf7-9081223bfa9e",
+      "name": "Pinecone Vector Store2",
+      "credentials": {
+        "pineconeApi": {
+          "id": "mzjNoajBI2bXZHE4",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        496,
+        1168
+      ],
+      "id": "21843507-1d76-46d2-b242-654a1204a05d",
+      "name": "Embeddings Google Gemini2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "oMm1jwvVO2TGDptn",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        336,
+        1024
+      ],
+      "id": "162b04a7-8d04-482f-861d-052cc8ebfd05",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "lKqvstMY3GvBXz4i",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = items.map(i => i.json);\n\n// ---------- SUMMARY CALCULATIONS ---------- //\nlet total = rows.length;\nlet stats = {\n  PAID: 0,\n  ALREADY_PAID: 0,\n  CALL_LATER: 0,\n  WRONG_NUMBER: 0,\n  REFUND_REQUEST: 0,\n  NEED_EXTENSION: 0,\n  REFUSED: 0,\n  UNCLEAR: 0\n};\n\nrows.forEach(r => {\n  let key = (r.last_call_result || \"UNCLEAR\").toUpperCase();\n  if (!stats[key]) stats[\"UNCLEAR\"]++;\n  else stats[key]++;\n});\n\n// ---------- PREMIUM HTML REPORT ---------- //\nlet html = `\n<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\" />\n<title>Debt Collection Manager Report</title>\n\n<style>\n  body { font-family: 'Segoe UI', Arial, sans-serif; background:#f5f7fa; padding:20px; }\n  h1 { font-size: 26px; margin-bottom: 4px; color:#2d3e50; }\n  h2 { font-size: 18px; margin-top: 30px; color:#2d3e50; }\n\n  .report-container {\n    background:white;\n    padding:25px;\n    border-radius:10px;\n    box-shadow:0 3px 12px rgba(0,0,0,0.08);\n  }\n\n  .grid {\n    display:grid;\n    grid-template-columns: repeat(4, 1fr);\n    gap:12px;\n    margin-top:15px;\n  }\n\n  .box {\n    background:#fff;\n    padding:15px;\n    border-radius:8px;\n    box-shadow: 0 1px 4px rgba(0,0,0,0.05);\n    border-left:6px solid #4a89dc;\n  }\n\n  .box h3 {\n    margin:0;\n    font-size:16px;\n    color:#546e7a;\n  }\n  .box p {\n    font-size:22px;\n    margin-top:4px;\n    font-weight:bold;\n    color:#2d3e50;\n  }\n\n  /* Dynamic Badge Colors */\n  .badge {\n    padding:4px 8px; \n    border-radius:6px; \n    font-size:12px; \n    color:white;\n    font-weight:600;\n  }\n  .PAID { background:#43a047; }\n  .ALREADY_PAID { background:#1e88e5; }\n  .CALL_LATER { background:#fb8c00; }\n  .WRONG_NUMBER { background:#757575; }\n  .REFUND_REQUEST { background:#8e24aa; }\n  .NEED_EXTENSION { background:#ffb300; }\n  .REFUSED { background:#e53935; }\n  .UNCLEAR { background:#546e7a; }\n\n  table {\n    width: 100%;\n    border-collapse: collapse;\n    margin-top:20px;\n    background:white;\n    border-radius:8px;\n    overflow:hidden;\n    box-shadow:0 2px 10px rgba(0,0,0,0.06);\n  }\n\n  th {\n    background:#eceff1;\n    padding:10px;\n    font-size:13px;\n    text-transform:uppercase;\n    letter-spacing:0.5px;\n    color:#37474f;\n  }\n\n  td {\n    padding:10px;\n    border-bottom:1px solid #f1f1f1;\n    font-size:14px;\n  }\n\n  tr:hover {\n    background:#f9f9f9;\n  }\n</style>\n</head>\n\n<body>\n\n<div class=\"report-container\">\n\n<h1>Debt Collection Manager Report</h1>\n<p style=\"color:#607d8b;\">Generated on: ${new Date().toLocaleString()}</p>\n\n<h2>Summary Overview</h2>\n\n<div class=\"grid\">\n  <div class=\"box\"><h3>Total Calls</h3><p>${total}</p></div>\n  <div class=\"box\"><h3>Paid</h3><p>${stats.PAID}</p></div>\n  <div class=\"box\"><h3>Already Paid</h3><p>${stats.ALREADY_PAID}</p></div>\n  <div class=\"box\"><h3>Callback Requested</h3><p>${stats.CALL_LATER}</p></div>\n  <div class=\"box\"><h3>Wrong Numbers</h3><p>${stats.WRONG_NUMBER}</p></div>\n  <div class=\"box\"><h3>Refund Requests</h3><p>${stats.REFUND_REQUEST}</p></div>\n  <div class=\"box\"><h3>Need Extension</h3><p>${stats.NEED_EXTENSION}</p></div>\n  <div class=\"box\"><h3>Refused</h3><p>${stats.REFUSED}</p></div>\n  <div class=\"box\"><h3>Unclear</h3><p>${stats.UNCLEAR}</p></div>\n</div>\n\n<h2>Call Log Details</h2>\n\n<table>\n<tr>\n  <th>ID</th>\n  <th>Name</th>\n  <th>Phone</th>\n  <th>Amount</th>\n  <th>Product</th>\n  <th>Purchase Date</th>\n  <th>Status</th>\n  <th>Next Call</th>\n  <th>Result</th>\n  <th>Notes</th>\n</tr>\n`;\n\nrows.forEach(r => {\n  let result = (r.last_call_result || \"UNCLEAR\").toUpperCase();\n  html += `\n<tr>\n  <td>${r.id || \"\"}</td>\n  <td>${r.name || \"\"}</td>\n  <td>${r.phone || \"\"}</td>\n  <td>${r.amount || \"\"} ${r.currency || \"\"}</td>\n  <td>${r.product_name || \"\"}</td>\n  <td>${r.purchase_date || \"\"}</td>\n  <td>${r.status || \"\"}</td>\n  <td>${r.next_call_at || \"-\"}</td>\n  <td><span class=\"badge ${result}\">${result}</span></td>\n  <td>${r.notes || \"\"}</td>\n</tr>\n`;\n});\n\nhtml += `\n</table>\n</div>\n\n</body>\n</html>\n`;\n\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -16
+      ],
+      "id": "816d54c9-714c-4e68-9db3-d0cfce64ca74",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "gowslm2005@gmail.com",
+        "subject": "Debt Collection Manager Report",
+        "message": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        -32
+      ],
+      "id": "2386ae43-a4ad-411e-a4bc-b11a8c52080b",
+      "name": "Send a message",
+      "webhookId": "66b32ce4-74b2-4937-9577-592be6d4d29b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "u96Cuyksz6fdWooY",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "10288622-0c72-44ba-9486-d7bfe7eda95d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5d2bde782f50108b6de6c3579702c74a9a59b8ffb25119efc808b5545a2fbb67"
+  },
+  "id": "MQC9zNzXxMuyqVHn",
+  "tags": []
+}
